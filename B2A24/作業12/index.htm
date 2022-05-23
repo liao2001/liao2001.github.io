@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<title>作業12</title>
+	<style>
+		h4 {
+		  color: red;
+		}
+        label {
+            color: blue;
+        }
+        input {
+            color: brown;
+        }
+		div {
+		  color: biue;
+		  margin: 5px;
+		}
+		table {
+		    width: 40%;
+		    border-color: dodgerblue;
+		    border-stytle:solid;
+		    border-collapse: collapse;
+		}
+		tr {
+		    text-align: left;
+		    birder-color: dodgerblue;
+		    border-stytle:solid;
+		}
+		td {
+		    vertical-align: middle;
+		    border-color: dodgerblue;
+		    border-stytle:solid;
+		}
+		td:nth-child(1){
+		    color: brown;
+		}
+    </style>
+</head>
+
+<body>
+<form id="form01">
+	<label>姓名: </label>
+	<input type="text" name="name01" value="廖怡鈞"><br>
+	<label>收件住址: </label>
+	<input type="text" name="address01" value="新北市新莊區西盛街388巷10號5樓"><br>
+	<label>電話: </label>
+	<input type="tel" name="tel01" value="0911083740"><br>
+	<label>電子郵件: </label>
+	<input type="email" name="email01" value="vivian10604@gmail.com"><br>
+	<label>指定送貨日期: </label>
+	<input type="date" name="date01"><br>
+	<label>飲料種類: (四選一)</label><br>
+	<input type="checkbox" name="drink" id="drink01" value="紅茶(1杯)">紅茶(1杯) 30元;
+	<input type="number" name="number01"><br>
+	<input type="checkbox" name="drink" id="drink02" value="冬瓜茶(2杯)">冬瓜茶(2杯) 60元;
+	<input type="number" name="number02"><br>
+	<input type="checkbox" name="drink" id="drink03" value="珍珠奶茶(4杯)">珍珠奶茶(4杯) 200元;
+	<input type="number" name="number03"><br>
+	<input type="checkbox" name="drink" id="drink04" value="拿鐵咖啡(2杯)">拿鐵咖啡(2杯) 100元;
+	<input type="number" name="number04"><br>
+</form>
+<br>
+<button onclick="shoppingInfo()"><h4>結帳</h4>></button>
+<div id="demo"></div>
+<script>
+     var text = "<h4>您的購物資訊如下:</h4>";
+	 var drink = function (drinkType, drinkPrice, no){
+	     this.Type = drinkType;
+	     this.Price = drinkPrice;
+	     this.subTotal = function(no){
+	         text += "<tr><td>飲料種類:</td><td> " + this.Type + "; 共" + no + "單位</td></tr>";
+	         text += "<tr><td>價格小計:</td><td> " + this.Price * no + "元</td></tr>";
+	    };
+	};
+    var drink01 = new drink("紅茶(1杯)",30, 0);
+    var drink02 = new drink("冬瓜茶(2杯)",60, 0);
+    var drink03 = new drink("珍珠奶茶(4杯)",200, 0);
+    var drink04 = new drink("拿鐵咖啡(2杯)",100, 0);
+    function shoppingInfo() {
+        var x = document.getElementById("form01");
+        var item = "";
+        var sumToPay = 0;
+        var i;
+        text += "<table>";
+        for (i = 0; i < 5; i++) {
+            switch(i) {
+                case 0: item = "姓名: "; break;
+                case 1: item = "收件住址: "; break;
+                case 2: item = "電話: "; break;
+                case 3: item = "電子郵件: "; break;
+                case 4: item = "指定送貨日期: "; break;
+            }
+            text += "<tr><td>" + item + x.elements[i].value + "</td></tr>";
+    }
+    for (i=5; i<=11; i++) {
+        if(x.elements[i].checked === true){
+            switch(i){
+                case5: drink01.no = x.elements[i+1].value;
+                       sumToPay += drink01.Price * drink01.no;
+                       drink01.subTotal(drink01.no);
+                       break;
+                case7: drink02.no = x.elements[i+1].value;
+                       sumToPay += drink02.Price * drink02.no;
+                       drink02.subTotal(drink02.no);
+                       break;
+                case9: drink03.no = x.elements[i+1].value;
+                       sumToPay += drink03.Price * drink03.no;
+                       drink03.subTotal(drink03.no);
+                       break;
+                case11: drink04.no = x.elements[i+1].value;
+                       sumToPay += drink04.Price * drink04.no;
+                       drink04.subTotal(drink04.no);
+                       break;
+            }
+        }
+    }
+        text += "</table>";
+        document.getElementById("demo").innerHTML = text;
+    }
+</script>
+
+</body>
+
+</html>
